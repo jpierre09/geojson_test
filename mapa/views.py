@@ -21,23 +21,35 @@ import os
 #     # Devuelve el contenido almacenado en la variable global como respuesta de archivo
 #     return FileResponse(geojson_data, as_attachment=True, filename='amva.geojson')
 
+# from django.core.cache import cache
+# from django.http import FileResponse
+# from django.conf import settings
+
+# def geojson(request):
+#     # Verificar si el resultado está en la caché
+#     resultado = cache.get('mi_clave_de_cache')
+    
+#     # Si el resultado no está en la caché, leer el archivo y almacenarlo en la caché
+#     if resultado is None:
+#         with open(settings.GEOJSON_PATH, 'rb') as f:
+#             resultado = f.read()
+#             cache.set('mi_clave_de_cache', resultado, timeout=3600) # Almacenar el resultado en caché durante 1 hora
+        
+#     return FileResponse(resultado)
+
+
 from django.core.cache import cache
 from django.http import FileResponse
 from django.conf import settings
 
 def geojson(request):
-    # Verificar si el resultado está en la caché
-    resultado = cache.get('mi_clave_de_cache')
-    
-    # Si el resultado no está en la caché, leer el archivo y almacenarlo en la caché
-    if resultado is None:
+    geojson_data = cache.get('geojson_data')
+    if not geojson_data:
+        print(settings.GEOJSON_PATH)
         with open(settings.GEOJSON_PATH, 'rb') as f:
-            resultado = f.read()
-            cache.set('mi_clave_de_cache', resultado, timeout=3600) # Almacenar el resultado en caché durante 1 hora
-        
-    return FileResponse(resultado)
-
-
+            geojson_data = f.read()
+        cache.set('geojson_data', geojson_data)
+    return FileResponse(geojson_data)
 
 
 
