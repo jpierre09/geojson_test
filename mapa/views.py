@@ -38,24 +38,24 @@ import os
 #     return FileResponse(resultado)
 
 
-from django.core.cache import cache
-from django.http import FileResponse
-from django.conf import settings
-
-def geojson(request):
-    geojson_data = cache.get('geojson_data')
-    if not geojson_data:
-        print(settings.GEOJSON_PATH)
-        with open(settings.GEOJSON_PATH, 'rb') as f:
-            geojson_data = f.read()
-        cache.set('geojson_data', geojson_data)
-    return FileResponse(geojson_data)
-
-
+# from django.core.cache import cache
+# from django.http import FileResponse
+# from django.conf import settings
 
 # def geojson(request):
-#     print(settings.GEOJSON_PATH)
-#     return FileResponse(open(settings.GEOJSON_PATH, 'rb'))
+#     geojson_data = cache.get('geojson_data')
+#     if not geojson_data:
+#         print(settings.GEOJSON_PATH)
+#         with open(settings.GEOJSON_PATH, 'rb') as f:
+#             geojson_data = f.read()
+#         cache.set('geojson_data', geojson_data)
+#     return FileResponse(geojson_data)
+
+
+
+def geojson(request):
+    print(settings.GEOJSON_PATH)
+    return FileResponse(open(settings.GEOJSON_PATH, 'rb'))
 
 
 
