@@ -126,3 +126,14 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 GEOJSON_PATH = os.path.join(BASE_DIR, 'data', 'amva.geojson')
+
+
+CACHES = {
+    'default': {
+        'BACKEND': 'backend_de_cache', # Backend de caché que está utilizando
+        'LOCATION': '0.0.0.0:8001', # Ubicación del backend de caché (por ejemplo, la dirección IP y el puerto de Memcached o Redis)
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient', # Clase del cliente de Redis que se utilizará
+        }
+    }
+}
